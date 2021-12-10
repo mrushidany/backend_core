@@ -106,4 +106,13 @@ class UserController extends Controller
             'message' => 'Logged out Successfull',
         ], 200);
     }
+
+    public function profile(){
+        $data = Auth::guard('api')->user();
+        return response()->json([
+            'success' => true,
+            'message' => 'user profile',
+            'data' => $data,
+        ], 200);
+    }
 }
