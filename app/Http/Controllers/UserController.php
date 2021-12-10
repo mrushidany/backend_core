@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -92,6 +93,17 @@ class UserController extends Controller
                 'error' => 'Sorry this user does not exist'
             ], 422);
         }
+    }
 
+    public function logout()
+    {
+        //Destroy the token from the user
+        $user = Auth::guard('api')->user()->token();
+        $user->revoke();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Logged out Successfull',
+        ], 200);
     }
 }
