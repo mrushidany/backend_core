@@ -18,7 +18,7 @@ class CorsMiddlerware
     {
         //Intercepts OPTIONS requests
         if($request->isMethod('OPTIONS')){
-          $response=\response('', 200);
+          $response= response('', 200);
         }else {
             //Passing the request to the next middleware
             $response = $next($request);
@@ -30,6 +30,6 @@ class CorsMiddlerware
         $response->header('Access-Control-Allow-Credentials', 'true');
         $response->header('Accept', 'application/json');
         $response->header('Access-Control-Expose-Headers','location');
-        return response();
+        return $response;
     }
 }

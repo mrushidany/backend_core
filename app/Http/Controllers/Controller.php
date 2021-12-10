@@ -13,7 +13,7 @@ class Controller extends BaseController
 
     public function respond_with_token($token, $response_message, $data)
     {
-        return \response()->json([
+        return response()->json([
             'success' => true,
             'message' => $response_message,
             'data' => $data,
