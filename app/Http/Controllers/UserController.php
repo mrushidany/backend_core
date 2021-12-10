@@ -108,6 +108,7 @@ class UserController extends Controller
     }
 
     public function profile(){
+        //Capture user credentials in the Authentication guard logged in through the api
         $data = Auth::guard('api')->user();
         return response()->json([
             'success' => true,
