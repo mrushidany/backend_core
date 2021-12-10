@@ -10,4 +10,15 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function respond_with_token($token, $response_message, $data)
+    {
+        return \response()->json([
+            'success' => true,
+            'message' => $response_message,
+            'data' => $data,
+            'token' => $token,
+            'token_type' => 'bearer',
+        ], 200);
+    }
 }
