@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['prefix' => 'users', 'middleware' => 'Cors'], function ($router) {
+    Route::post('/register', [UserController::class, 'register'])->name('register');
+    Route::post('/login', [UserController::class, 'login'])->name('login');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 });
