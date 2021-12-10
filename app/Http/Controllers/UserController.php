@@ -49,4 +49,49 @@ class UserController extends Controller
             'message' => 'Registration Successful',
         ], 200);
     }
+
+    public function login(Request $request)
+    {
+        //Validation of the incoming post requests from the login form in the Frontend Application
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string',
+            'password' => 'required|min:6',
+        ]);
+
+        // Checkin if the validation fails
+        if($validator->fails()){
+            return response()->json([
+                'success' => false,
+                'message' => $validator->messages()->toArray()
+            ], 500);
+        }
+
+        //Assigning the email and password requests into credentials variable for fetching from users table from the database
+        $credentials = $request->only(['email','password']);
+        $user = User::where('email', $credentials['email'])->first();
+
+        //Testing the if the user exists
+        if($user)
+        {
+            if(! auth()->attempt($credentials)){
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid email or password',
+                    'error' => 'Invalid email or password'
+                ], 422);
+            }
+            //Creation of access token
+            $access_token = auth()->user()->createToken('authToken')->accessToken;
+            $response_message = 'Login Succesfull';
+            return $this->respond_with_token($access_token, $response_message, auth()->user());
+        }
+        else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry this user does not exist',
+                'error' => 'Sorry this user does not exist'
+            ], 422);
+        }
+
+    }
 }
