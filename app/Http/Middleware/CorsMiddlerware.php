@@ -16,6 +16,20 @@ class CorsMiddlerware
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        //Intercepts OPTIONS requests
+        if($request->isMethod('OPTIONS')){
+          $response=\response('', 200);
+        }else {
+            //Passing the request to the next middleware
+            $response = $next($request);
+        }
+        //Defining the header parameters
+        $response->header('Access-Control-Allow-Origin', "*");
+        $response->header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS, PATCH');
+        $response->header('Access-Control-Allow-Headers', $request->header('Access-Control-Request-Headers'));
+        $response->header('Access-Control-Allow-Credentials', 'true');
+        $response->header('Accept', 'application/json');
+        $response->header('Access-Control-Expose-Headers','location');
+        return response();
     }
 }
