@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/inovorac/public_html/backend.inovora.co.tz
+    - /bin/cp -R * $DEPLOYPATH
